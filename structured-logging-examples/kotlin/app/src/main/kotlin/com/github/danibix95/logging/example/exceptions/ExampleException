@@ -1,5 +1,0 @@
-package com.github.danibix95.logging.example.exceptions
-
-class ExampleException : Exception {
-  
-}
