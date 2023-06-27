@@ -2,12 +2,7 @@
 
 const pino = require('pino')
 
-class ExampleError extends Error {
-  constructor(msg) {
-    super(msg)
-    this.cause = 'explaining the issue'
-  }
-}
+const { ExampleError } = require('./errors/errors')
 
 function main() {
   const logger = pino({ level: 'info' })
