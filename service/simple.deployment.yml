@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple
+  labels:
+    app: simple
+    collectMetrics: "true"
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simple
+  strategy:
+    type: RollingUpdate
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: simple
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: simple
+          image: simple:0.1.4
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 80Mi
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+              name: http-service
+          args: []
+          env:
+            - name: LOG_LEVEL
+              value: debug
+            - name: USERID_HEADER_KEY
+              value: userid
+            - name: GROUPS_HEADER_KEY
+              value: usergroups
+            - name: CLIENTTYPE_HEADER_KEY
+              value: clienttype
+            - name: BACKOFFICE_HEADER_KEY
+              value: isbackoffice
+            - name: MICROSERVICE_GATEWAY_SERVICE_NAME
+              value: microservice-gateway
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+            httpGet:
+              port: 3000
+              path: /-/ready
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+            httpGet:
+              port: 3000
+              path: /-/healthz
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
