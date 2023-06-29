@@ -1,6 +1,6 @@
 {
   "name": "mia_template_service_name_placeholder",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "simple application exposing metrics",
   "license": "SEE LICENSE IN LICENSE",
   "main": "index.js",

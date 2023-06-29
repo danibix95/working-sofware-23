@@ -22,7 +22,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: simple
-          image: simple:0.1.3
+          image: simple:0.1.4
           imagePullPolicy: IfNotPresent
           resources:
             limits:

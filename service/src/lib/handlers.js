@@ -6,16 +6,19 @@ const { setTimeout } = require('timers/promises')
 const { InvalidQueryError, InvalidBodyError, StorageFailureError } = require('./errors/errors')
 
 async function ok(request, reply) {
+  await setTimeout(randomInt(30))
   await reply.send({ msg: 'hello' })
 }
 
 async function failure(request, reply) {
+  await setTimeout(50 + randomInt(70))
   await reply.code(500).reply.send({ error: 'this does not work' })
 }
 
 async function randomFailure(request, reply) {
-  const rand = randomInt(200)
+  await setTimeout(randomInt(150))
 
+  const rand = randomInt(200)
   request.log.debug({ rand }, 'random-failure')
 
   switch (true) {
@@ -47,6 +50,7 @@ async function randomFailure(request, reply) {
 function customFailure(errorCounter) {
   return async(request, reply) => {
     const { log } = request
+    await setTimeout(10 + randomInt(120))
 
     try {
       const msg = mayThrowError()
@@ -60,7 +64,7 @@ function customFailure(errorCounter) {
 }
 
 async function longOperation(request, reply) {
-  const rand = 100 + randomInt(3000)
+  const rand = 100 + randomInt(7000)
   await setTimeout(rand)
 
   await reply.send({ msg: 'delayed response' })
