@@ -2,4 +2,4 @@
 
 ## How to run
 
-   ./gradlew run | npx pino-pretty -t
+    ./gradlew run | npx pino-pretty -t

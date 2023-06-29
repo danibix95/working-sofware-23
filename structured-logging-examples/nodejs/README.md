@@ -2,5 +2,5 @@
 
 ## How to run
 
-   npm ci
-   node index | npx pino-pretty -t
+    npm ci
+    node index | npx pino-pretty -t
